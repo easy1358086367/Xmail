@@ -1,4 +1,4 @@
-const path = 'http://127.0.0.1:3000';
+const path = 'http://116.62.178.68:3000';
 
 export default {
     home: path + '/api/goods/home',

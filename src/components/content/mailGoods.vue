@@ -66,7 +66,6 @@ export default {
         productName : name,
         productImg : img
       })
-
     }
   },
 };

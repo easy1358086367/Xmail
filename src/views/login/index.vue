@@ -18,7 +18,8 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-          <el-button>返回</el-button>
+          <el-button type="success" @click="register()">注册</el-button>
+          <el-button @click="()=>{this.$router.go(-1)}">返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -113,6 +114,9 @@ export default {
           return false;
         }
       });
+    },
+    register () {
+      alert('注册成功')
     }
   }
 };

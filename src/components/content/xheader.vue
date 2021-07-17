@@ -17,9 +17,9 @@
                 v-model="productInfo"
                 minlength="1"
                 maxlength="100"
+                @change = 'search'
               ></el-input>
               <router-link to="/goods">全部商品</router-link>
-              <router-link to="/thanks">捐赠</router-link>
             </div>
             <span>|</span>
             <div class="nav-aside">
@@ -96,7 +96,7 @@
                                     </div>
                                   </div>
                                 </a>
-                                <div class="del-btn del">删除</div>
+                                <div class="del-btn del" @click="del(goods)" style="text-indent:0;width:32px;height:32px;"><svg t="1626403950647" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3751" data-spm-anchor-id="a313x.7781069.0.i2" width="32" height="32"><path d="M512 1024C229.232 1024 0 794.768 0 512 0 229.232 229.232 0 512 0c282.768 0 512 229.232 512 512 0 282.768-229.232 512-512 512z m0-552.224l-150.56-150.56a28.448 28.448 0 0 0-40.224 40.224l150.56 150.56-150.56 150.56a28.448 28.448 0 0 0 40.224 40.224l150.56-150.56 150.56 150.56a28.448 28.448 0 0 0 40.224-40.224L552.224 512l150.56-150.56a28.448 28.448 0 0 0-40.224-40.224L512 471.776z" p-id="3752" fill="#d81e06"></path></svg></div>
                               </div>
                             </div>
                           </li>
@@ -137,7 +137,6 @@
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item :to="{path:'/goods'}">全部</el-breadcrumb-item>
                 <el-breadcrumb-item :to="{path:'/goods?cid=1184'}">品牌周边</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{path:'/thanks'}">捐赠名单</el-breadcrumb-item>
               </el-breadcrumb>
             </div>
           </div>
@@ -191,6 +190,17 @@ export default {
       removeStore('buyCart')
       this.$store.commit('LOGINOUT')
       window.location.href = '/'
+    },
+    del(goods) {
+      this.$store.commit('DELCART',goods.productId)
+    },
+    search (value) {
+      this.$router.push({
+        path:'/search',
+        query : {
+          value
+        }
+      })
     }
   },
   async mounted() {
@@ -238,7 +248,7 @@ header {
     display: flex;
     align-items: center;
     > a {
-      background: url(/static/images/global-logo-red@2x.png) no-repeat 50%;
+      background: url(~assets/img/global-logo-red@2x.png) no-repeat 50%;
       background-size: cover;
       display: block;
       @include wh(50px, 40px);
@@ -354,7 +364,7 @@ header {
         left: 8px;
         top: 0;
         @include wh(20px);
-        background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) -155px
+        background: url(~assets/img/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) -155px
           0;
         background-size: 240px 107px;
         transition: none;
@@ -451,7 +461,7 @@ header {
         display: block;
         @include wh(30px, 100%);
         content: " ";
-        background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png)
+        background: url(~assets/img/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png)
           0 -22px;
         background-size: 240px 107px;
         background-position: -150px -22px;
@@ -615,6 +625,7 @@ header {
         right: 20px;
         top: 50%;
         transform: translateY(-50%);
+        text-indent: 0px;
       }
     }
     .nav-cart-total {

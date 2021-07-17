@@ -4,12 +4,13 @@ import VueRouter from "vue-router";
 
 // 异步加载
 const index = ()=>import('@/views/index');
-const login = ()=>import('@/views/login');
-const home = ()=>import('@/views/home');
-const goods = ()=>import('@/views/goods');
-const thanks = ()=>import('@/views/thanks');
-const goodsDetail = ()=>import('@/views/goodsDetail');
-const user = ()=>import('@/views/user');
+const login = ()=>import('@/views/login/index');
+const home = ()=>import('@/views/home/index');
+const goods = ()=>import('@/views/goods/index');
+const thanks = ()=>import('@/views/thanks/index');
+const goodsDetail = ()=>import('@/views/goodsDetail/index');
+const user = ()=>import('@/views/user/index');
+const search = ()=>import('@/views/search/index');
 
 // 正常加载
 // import index from "@/views/index";
@@ -46,6 +47,11 @@ const routes = [
         path: '/goodsDetail',
         component: goodsDetail,
         name:'goodsDetail'
+      },
+      {
+        path:'/search',
+        component : search,
+        name:'search'
       }
     ],
     

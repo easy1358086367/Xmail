@@ -6,10 +6,10 @@
           <div class="thumbnail">
             <ul>
               <li
-                v-for="(item,i) in small"
+                v-for="(item, i) in small"
                 :key="i"
-                :class="{on:isOn == i}"
-                @click="changeShow(i,item)"
+                :class="{ on: isOn == i }"
+                @click="changeShow(i, item)"
               >
                 <img :src="item" />
               </li>
@@ -25,21 +25,21 @@
       <!--右边-->
       <div class="banner">
         <div class="sku-custom-title">
-          <h4>{{product.productName}}</h4>
+          <h4>{{ product.productName }}</h4>
           <h6>
-            <span>{{product.subTitle}}</span>
+            <span>{{ product.subTitle }}</span>
             <span class="price">
               <em>¥</em>
-              <i>{{product.salePrice}}</i>
+              <i>{{ product.salePrice }}</i>
             </span>
           </h6>
         </div>
         <div class="num">
           <span class="params-name">数量</span>
-          <buy-num @handleValue="handleVal"></buy-num>
+          <buy-num @handleValue="getNumber"></buy-num>
         </div>
         <div class="buy">
-          <el-button type="primary">加入购物车</el-button>
+          <el-button type="primary" @click="addCart(product.productId, product.salePrice, product.productName, product.productImageBig)">加入购物车</el-button>
           <el-button type="danger">现在购买</el-button>
         </div>
       </div>
@@ -57,6 +57,7 @@
         </div>
       </shelf>
     </div>
+    <div class="gotop" @click="goTop()">Top</div>
   </div>
 </template>
 
@@ -76,11 +77,13 @@ export default {
       product: {},
       small: [],
       show: "",
-      isOn: 0
+      isOn: 0,
+      number:1
     };
   },
   created() {
     this.getGoodsDetail();
+    this.goTop()
   },
   methods: {
     async getGoodsDetail() {
@@ -101,6 +104,38 @@ export default {
     },
     handleVal(num) {
       console.log(num);
+    },
+    goTop(){
+      const that = this
+      let timer = setInterval(() => {
+        let ispeed = Math.floor(-that.scrollTop / 5)
+        document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+        if (document.documentElement.scrollTop <= 100) {
+          clearInterval(timer)
+        }
+      }, 16)
+    },
+    getNumber (newNumber) {
+        this.number = newNumber
+    },
+    addCart(id,price,name,img){
+      if(this.login){
+        // 表示用户已登录，并将数据存储到后台中
+        this.$axios.post(path.addCart,{
+          userId:getStore('id'),
+          productId: id,
+          productNum: this.number
+        })
+
+      }
+      // 将当前商品存储到store中的cartList
+      this.$store.commit('ADDCART',{
+        productId: id,
+        salePrice : price,
+        productName : name,
+        productImg : img,
+        productNum : this.number
+      })
     }
   }
 };
@@ -241,5 +276,18 @@ export default {
     font-size: 24px;
     font-style: normal;
   }
+}
+.gotop {
+  position:fixed;
+  bottom: 150px;
+  right: 100px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: brown;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
 }
 </style>

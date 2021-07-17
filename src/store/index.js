@@ -52,6 +52,14 @@ export default new Vuex.Store({
         carList:state.cartList
       })
     },
+    DELCART(state,id){
+      let index = state.cartList.findIndex(item=> item.productId === id)
+      if(state.cartList[index].productNum > 1) state.cartList[index].productNum--;
+      else state.cartList.splice(index,1);
+      setStore('buyCart',{
+        carList:state.cartList
+      })
+    },
     // 初始化购物车
     INITBUYCART(state){
       let initCart = getStore('buyCart')
